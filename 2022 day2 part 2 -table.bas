@@ -1,4 +1,4 @@
-!advent of code 2022 day 2 part 1
+!advent of code 2022 day 2 part 2
 !x11-basic on android
 
 table1()=[3,1,2;\
