@@ -19,44 +19,53 @@ dim stacks$(num_stacks)
 !part2 -ln19
 arraycopy pt2_stacks$(),stacks$()
 
-print "Number of stacks: ";num_stacks
-print "Initial stacks:"
-for s=0 to num_stacks-1
-  print s+1;": "+reverse$(stacks$(s))
-next
-
 seek filehandle,instr_offset
 
 while not eof(#1) ! and lines <2
+  cls
+  print at(1,1); "part 1 stacks:"
+  for s=0 to num_stacks-1
+    print s+1;": "+reverse$(stacks$(s))
+  next
+  print
+  print "part 2 stacks: "
+  for s=0 to num_stacks-1
+    print s+1;": "+reverse$(pt2_stacks$(s))
+  next
+
   instruction$=lineinput$(filehandle)
   inc lines
   number=val(word$(instruction$,2))
   from_stack=val(word$(instruction$,4))-1
   to_stack=val(word$(instruction$,6))-1
   
-  print "number","from","to"
-  print number,from_stack+1,to_stack+1
-  !ln39
+  print 
+  print lines;":";instruction$
+
   crane$=left$(stacks$(from_stack), number)
   crane2$=left$(pt2_stacks$(from_stack), number)
-  print crane$,crane2$
+  print "crane 1: ";crane$
+  print "crane 2: ";crane2$
   stacks$(from_stack)=right$(stacks$(from_stack),len(stacks$(from_stack))-number)
   pt2_stacks$(from_stack)=right$(pt2_stacks$(from_stack),len(pt2_stacks$(from_stack))-number)
 
   pt2_stacks$(to_stack)=crane2$ + pt2_stacks$(to_stack)
   stacks$(to_stack)=reverse$(crane$) + stacks$(to_stack)
+  pause .2
 wend
 
-print "end stacks 1:"
+cls
+print at(1,1);"end stacks 1:"
 for s=0 to num_stacks-1
   print s+1;": "+reverse$(stacks$(s))
 next
-
+print
 print "end stacks 2:"
 for s=0 to num_stacks-1
   print s+1;": "+reverse$(pt2_stacks$(s))
 next
 
+print
 print "top of stacks"
 for s=0 to num_stacks-1
   out$=out$+left$(stacks$(s),1)
