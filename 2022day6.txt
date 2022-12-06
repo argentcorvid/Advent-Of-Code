@@ -1,0 +1,61 @@
+10 dim wo(26) :rem window occurance
+20 ws=4 : rem window size
+21 goto 90
+29 for x=1 to 4
+30 read wi$:read so
+40 gosub 2000
+50 if rs=so then print "success!";rs:goto 81
+60 print "failure!"
+70 print "got";rs
+80 print "should be";so
+81 next x
+82 end
+90 open 1,8,2,"day6input,s,r"
+99 ip$=""
+100 for q=1 to 4
+110 get# 1, ch$
+111 if asc(ch$)>90 then ch$=chr$(asc(ch$)-32)
+120 ip$=ip$+ch$
+121 me=me+1
+122 next q
+123 print ip$;
+130 gosub 1000
+140 if rs goto 500
+150 gosub 5000 :rem check file with window=4
+500 print:print "marker: ";ip$;" at :";rs
+505 close 1
+510 end
+999 rem check string
+1000 li=len(ip$)
+1001 for z=1 to 26:wo(z)=0:next
+1002 for c=1 to li
+1010 cc=asc(mid$(ip$,c,1))-64
+1020 wo(cc)=wo(cc)+1
+1030 if wo(cc)>1 then rs=0:return
+1040 next c
+1050 rs=-1:rem we reached the end of the window without finding duplicates
+1060 return
+1999 rem walk sample string
+2000 ed=len(wi$)-ws
+2005 if ed=0 then ed=ws
+2010 for i=1 to ed
+2020 w$=mid$(wi$,i,ws)
+2030 ip$=w$:gosub 1000
+2040 if rs then rs=i+ws-1:return
+2050 if i=ed then rs=-1:return
+2060 next i
+3000 print "shouldn't get here"
+3010 end
+4000 data "mjqjpqmgbljsphdztnvjfqwrcgsmlb",7
+4001 data "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg",10
+4002 data "nppdvjthqldpwncqszvftbrmjlhg",6
+4003 data "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw",11
+5000 if (st and 64) then print "end of file reached":end
+5010 get# 1,ch$
+5020 if asc(ch$)>90 then ch$=chr$(asc(ch$)-32)
+5021 print ch$;
+5040 ip$=right$(ip$,ws-1)+ch$
+5050 me=me+1
+5060 gosub 1000
+5070 if rs then rs=me:return
+5080 goto 5000
