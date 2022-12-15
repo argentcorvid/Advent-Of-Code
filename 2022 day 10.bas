@@ -47,7 +47,7 @@ next
 print "total:";tab(14); total_str using "######"
 
 for p = 0 to (dim?(display()) - 1)
-  if (p mod 40) = 0
+  if (p mod crt_w) = 0
     print
   endif
   if display(p)
@@ -111,7 +111,7 @@ return
 
 procedure update_display(beam_loc, spr_loc)
   
-  if abs((beam_loc mod 40) - spr_loc) < 2 
+  if abs((beam_loc mod crt_w) - spr_loc) < 2 
     display(beam_loc)=1
   else
     display(beam_loc)=0
